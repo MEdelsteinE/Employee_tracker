@@ -1,4 +1,5 @@
-const {prompt} = require('inquirer');
+const { prompt } = require('inquirer');
+const mysql = require('mysql2');
 const db = mysql.createConnection(
     {
       host: 'localhost',
@@ -9,28 +10,54 @@ const db = mysql.createConnection(
     console.log(`Connected to the employee_tracker_db database.`)
   );
 
-function start()  {
+function init()  {
     prompt([
         {
             type: "list",
-            name: "options",
-            message: "Choose from the options below",
-            choices: ["Get All Employees", "b", "c"]
+            name: "choices",
+            message: "Please select an option",
+            choices: [
+                "View all Departments",
+                "View all Roles",
+                "View all Employees",
+                "Add a Department",
+                "Add a Role",
+                "Add an Employee",
+                "Update an Employee role",
+                "Exit"
+            ]
+        },
+    ]).then(answer => {
+        switch (answer.choices) {
+            case "View all Departments":
+                break;
+            case "View all Roles":
+                break;
+            case "View all Employees":
+                break;
+            case "Add a Department":
+                break;
+            case "Add a Role":
+                break;
+            case "Add an Employee":
+                break;
+            case "Update an Employee role":
+                break;
+            case "Exit":
+                break;
+            default:
+                showAnswer();
+                break;
         }
-]).then(answer => {
-    
-    switch (answer.options) {
-        case "Get All Employees":
-            getEmps()
-            break;
-        
-        default:
-            break;
-    }
-})
-}   
- start();
+    }).catch(error => {
+        console.error("Error occurred: ", error);
+    });
+};
 
- function getEmps() {
+function showAnswer() {
     console.log("it worked");
- }
+};
+
+init();    
+           
+       
