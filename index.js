@@ -1,14 +1,6 @@
 const { prompt } = require('inquirer');
-const mysql = require('mysql2');
-const db = mysql.createConnection(
-    {
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'employee_tracker_db'
-    },
-    console.log(`Connected to the employee_tracker_db database.`)
-  );
+const Queriers = require('./db/queires');
+require("console.table")
 
 function init()  {
     prompt([
@@ -30,10 +22,13 @@ function init()  {
     ]).then(answer => {
         switch (answer.choices) {
             case "View all Departments":
+                viewAllDeps()
                 break;
             case "View all Roles":
+                viewAllRoles()
                 break;
             case "View all Employees":
+                viewAllEmployees()
                 break;
             case "Add a Department":
                 break;
@@ -44,9 +39,7 @@ function init()  {
             case "Update an Employee role":
                 break;
             case "Exit":
-                break;
-            default:
-                showAnswer();
+                process.end()
                 break;
         }
     }).catch(error => {
@@ -54,10 +47,26 @@ function init()  {
     });
 };
 
-function showAnswer() {
-    console.log("it worked");
+async function viewAllDeps() {
+    await prompt
+    const [data] = await Queriers.allDepartments()
+    console.table(data);
 };
 
-init();    
+async function viewAllRoles(){
+    await prompt
+    const [data] = await Queriers.allRoles()
+    console.table(data);
+}
+
+async function viewAllEmployees(){
+    await prompt
+    const [data] = await Queriers.allEmployees()
+    console.table(data);
+}
+
+
+init();
+
            
        
