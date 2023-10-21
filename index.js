@@ -55,18 +55,21 @@ async function viewAllDeps() {
     await prompt
     const [data] = await Queriers.allDepartments()
     console.table(data);
+    init();
 };
 
 async function viewAllRoles(){
     await prompt
     const [data] = await Queriers.allRoles()
     console.table(data);
+    init();
 }
 
 async function viewAllEmployees(){
     await prompt
     const [data] = await Queriers.allEmployees()
     console.table(data);
+    init();
 }
 
 async function addDepartment() {
@@ -77,14 +80,43 @@ async function addDepartment() {
             message: 'Enter the name of the new department:'
         }
     ]);
-    await Queriers.addDepartment(newDepartmentName);
+    await Queriers.newDepartment(newDepartmentName);
     console.log(`New department '${newDepartmentName}' added successfully.`);
+    init();
 }
 
 async function addRole() {
-    const { newRole } = await prompt({
-        //THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
+    const [deps] = await Queriers.allDepartments()
+
+ 
+
+    const depsData = await deps.map((item)=>{
+        const {id, name} = item;
+
+        const newItem = {
+            name,
+            value: id
+        }
+
+        return newItem
     })
+   console.log(depsData)
+    const { newRole } = await prompt([
+        {
+            name: 'roleName',
+            message: 'Enter the name of the new role:'
+        },
+        {
+            type: "list",
+            name: 'deptId',
+            message: 'Enter the department of the new role:',
+            choices: depsData
+        },
+        {
+            name: 'newSal',
+            message: "Enter the Salary of the new role:"
+        }
+    ])
 }
 
 async function addEmployee() {
