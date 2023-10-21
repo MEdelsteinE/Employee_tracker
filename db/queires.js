@@ -16,6 +16,8 @@ class Queriers{
     allEmployees(){
         return this.db.promise().query("SELECT * From employees")
     }
+
+    
 };
 
 module.exports = new Queriers(db);

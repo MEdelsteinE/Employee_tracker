@@ -31,12 +31,16 @@ function init()  {
                 viewAllEmployees()
                 break;
             case "Add a Department":
+                addDepartment()
                 break;
             case "Add a Role":
+                addRole()
                 break;
             case "Add an Employee":
+                addEmployee()
                 break;
             case "Update an Employee role":
+                updateEmployee()
                 break;
             case "Exit":
                 process.end()
@@ -63,6 +67,36 @@ async function viewAllEmployees(){
     await prompt
     const [data] = await Queriers.allEmployees()
     console.table(data);
+}
+
+async function addDepartment() {
+    const { newDepartmentName } = await prompt([
+        {
+            type: 'input',
+            name: 'newDepartmentName',
+            message: 'Enter the name of the new department:'
+        }
+    ]);
+    await Queriers.addDepartment(newDepartmentName);
+    console.log(`New department '${newDepartmentName}' added successfully.`);
+}
+
+async function addRole() {
+    const { newRole } = await prompt({
+        //THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
+    })
+}
+
+async function addEmployee() {
+    const { newEmployee } = await prompt({
+        //THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
+    })
+}
+
+async function updateEmployee() {
+    const { updateEmployee } = await prompt({
+        //THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
+    })
 }
 
 
