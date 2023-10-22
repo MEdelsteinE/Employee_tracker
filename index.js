@@ -103,7 +103,7 @@ async function addRole() {
    console.log(depsData)
     const { newRole } = await prompt([
         {
-            name: 'roleName',
+            name: 'new employee',
             message: 'Enter the name of the new role:'
         },
         {
@@ -158,9 +158,44 @@ async function addEmployee() {
 }
 
 async function updateEmployee() {
-    const { updateEmployee } = await prompt({
-        //THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
-    })
+    const [employees] = await Queriers.allEmployees();
+    const employeesData = employees.map((item) => {
+        const { id, first_name, last_name } = item;
+        const newItem = {
+            name: `${first_name} ${last_name}`,
+            value: id
+        }
+        return newItem;
+    });
+
+    const [roles] = await Queriers.allRoles();
+    const rolesData = roles.map((item) => {
+        const { id, title } = item;
+        const newItem = {
+            name: title,
+            value: id
+        }
+        return newItem;
+    });
+
+    const { employeeId, roleId } = await prompt([
+        {
+            type: 'list',
+            name: 'employeeId',
+            message: 'Select the employee to update:',
+            choices: employeesData
+        },
+        {
+            type: 'list',
+            name: 'roleId',
+            message: 'Select the new role for the employee:',
+            choices: rolesData
+        }
+    ]);
+
+    await Queriers.updateEmployeeRole(employeeId, roleId);
+    console.log(`Employee's role updated successfully.`);
+    init();
 }
 
 

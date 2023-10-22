@@ -28,6 +28,10 @@ class Queriers{
  newEmployee(empData){
     return this.db.promise().query("INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ?", empData)
  }
+
+ updateEmp(updateData){
+    return this.db.promise().query("INSERT INTO employees(employee_id, role_id) VALUES ?", updateData) 
+ }
 };
 
 module.exports = new Queriers(db);
