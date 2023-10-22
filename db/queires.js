@@ -24,6 +24,10 @@ class Queriers{
    newRole(roleData){
     return this.db.promise().query("INSERT INTO role(title, department_id, salary) VALUES ?", roleData)
  }
+
+ newEmployee(empData){
+    return this.db.promise().query("INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES ?", empData)
+ }
 };
 
 module.exports = new Queriers(db);

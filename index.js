@@ -116,13 +116,45 @@ async function addRole() {
             name: 'newSal',
             message: "Enter the Salary of the new role:"
         }
-    ])
+    ]);
+    await Queriers.newRole(roleName, deptId, newSal)
+    init();
 }
 
 async function addEmployee() {
-    const { newEmployee } = await prompt({
-        //THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
-    })
+    const [roles] = await Queriers.allRoles();
+    const rolesData = roles.map((item) => {
+        const { id, title } = item;
+        const newItem = {
+            name: title,
+            value: id
+        }
+        return newItem;
+    });
+
+    const { firstName, lastName, roleId, managerId } = await prompt([
+        {
+            name: 'firstName',
+            message: 'Enter the employees first name:'
+        },
+        {
+            name: 'lastName',
+            message: 'Enter the employees last name:'
+        },
+        {
+            type: 'list',
+            name: 'roleId',
+            message: 'Select the employees role:',
+            choices: rolesData
+        },
+        {
+            name: 'managerId',
+            message: 'Enter the manager ID:'
+        }
+    ]);
+
+    await Queriers.newEmployee(firstName, lastName, roleId, managerId);
+    init();
 }
 
 async function updateEmployee() {
