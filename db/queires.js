@@ -30,7 +30,7 @@ class Queriers{
  }
 
  updateEmp(updateData){
-    return this.db.promise().query("INSERT INTO employees(employee_id, role_id) VALUES ?", updateData) 
+    return this.db.promise().query("INSERT INTO employees(title, role_id) VALUES ?", updateData) 
  }
 };
 
