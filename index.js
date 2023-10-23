@@ -131,8 +131,17 @@ async function addEmployee() {
         }
         return newItem;
     });
+        const [manager] = await Queriers.allEmployees();
+        const managerData = manager.map((person) => {
+            const {first_name, last_name, id} = person;
+            const newPerson= {
+                name: `${first_name} ${last_name}`,
+                value: id
+            }
+            return newPerson
+        });
 
-    const { firstName, lastName, roleId, managerId } = await prompt([
+    const data = await prompt([
         {
             name: 'firstName',
             message: 'Enter the employees first name:'
@@ -148,12 +157,23 @@ async function addEmployee() {
             choices: rolesData
         },
         {
+            type: 'list',
             name: 'managerId',
-            message: 'Enter the manager ID:'
+            message: 'Are they a manager?:',
+            choices: managerData
         }
     ]);
 
-    await Queriers.newEmployee(firstName, lastName, roleId, managerId);
+    const arrData =  Object.values(data)
+    
+    
+    // data.map((employee) => {
+    //       const objValues =
+    //       return objValues
+    //      });
+         console.log(arrData);
+
+    await Queriers.newEmployee(arrData);
     init();
 }
 
