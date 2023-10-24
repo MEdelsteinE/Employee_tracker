@@ -25,14 +25,14 @@ class Queriers{
     return this.db.promise().query("INSERT INTO role(title, department_id, salary) VALUES ?", roleData)
  }
 
- newEmployee(empData){
-    console.log(empData)
-    return this.db.promise().query("INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES (?)", empData)
- }
+ newEmployee(empData) {
+    return this.db.promise().query("INSERT INTO employees(first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", empData);
+}
 
- updateEmp(updateData){
-    return this.db.promise().query("INSERT INTO employees(title, role_id) VALUES ?", updateData) 
- }
+updateEmployeeRole(employeeId, roleId) {
+    return this.db.promise().query("UPDATE employees SET role_id = ? WHERE id = ?", [roleId, employeeId]);
+}
+ 
 };
 
 module.exports = new Queriers(db);
