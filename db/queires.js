@@ -22,7 +22,7 @@ class Queriers{
     }
     // var sql = "INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')";
    newRole(roleData){
-    return this.db.promise().query("INSERT INTO role(title, department_id, salary) VALUES ?", roleData)
+    return this.db.promise().query("INSERT INTO role(title, department_id, salary) VALUES (?, ?, ?)", roleData)
  }
 
  newEmployee(empData) {
